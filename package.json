@@ -1,4 +1,11 @@
-"scripts": {
-  "test": "jest",
-  "build": "mkdir -p dist && cp app.js dist/"
+{
+  "name": "my-cicd-demo",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jest",
+    "build": "mkdir -p dist && cp app.js dist/"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
