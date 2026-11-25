@@ -1,0 +1,4 @@
+"scripts": {
+  "test": "jest",
+  "build": "mkdir -p dist && cp app.js dist/"
+}

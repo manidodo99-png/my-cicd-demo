@@ -1,0 +1,51 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:                       # CI part
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build the app
+        run: npm run build
+
+      - name: Save build output
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files
+          path: dist/
+
+  deploy:                     # CD part
+    needs: test               # only runs if tests pass
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build output
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: dist/
+
+      - name: Deploy (simulated)
+        run: |
+          echo "Deploying to production..."
+          ls dist/
+          echo "Deployment successful!"
